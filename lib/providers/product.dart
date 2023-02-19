@@ -39,13 +39,11 @@ class Product with ChangeNotifier {
           },
         ),
       );
-      if (response.statusCode >= 0) {
-        isFavorite = oldStatus;
-        notifyListeners();
+      if (response.statusCode >= 400) {
+        _setFavValue(oldStatus);
       }
-    } catch (eeror) {
-      isFavorite = oldStatus;
-      notifyListeners();
+    } catch (error) {
+      _setFavValue(oldStatus);
     }
   }
 }
