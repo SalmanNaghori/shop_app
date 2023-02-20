@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../providers/cart.dart' show Cart;
 import 'package:provider/provider.dart';
+
+import '../providers/cart.dart' show Cart;
 import '../widgets/cart_item.dart';
 import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
-  CartScreen({Key key}) : super(key: key);
   static const routeName = '/cart';
 
   @override
@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
         title: Text('Your Cart'),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Card(
             margin: EdgeInsets.all(15),
             child: Padding(
@@ -24,16 +24,14 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const Text(
+                  Text(
                     'Total',
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
+                    style: TextStyle(fontSize: 20),
                   ),
                   Spacer(),
                   Chip(
                     label: Text(
-                      '\$${cart.totalAmount.toStringAsFixed(2)}',
+                      '₹${cart.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
                         color:
                             Theme.of(context).primaryTextTheme.headline6.color,
@@ -74,7 +72,7 @@ class OrderButton extends StatefulWidget {
   final Cart cart;
 
   @override
-  State<OrderButton> createState() => _OrderButtonState();
+  _OrderButtonState createState() => _OrderButtonState();
 }
 
 class _OrderButtonState extends State<OrderButton> {
@@ -84,7 +82,7 @@ class _OrderButtonState extends State<OrderButton> {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        foregroundColor: Theme.of(context).primaryColor,
+        primary: Theme.of(context).primaryColor,
       ),
       child: _isLoading ? CircularProgressIndicator() : Text('ORDER NOW'),
       onPressed: (widget.cart.totalAmount <= 0 || _isLoading)

@@ -158,7 +158,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         labelText: 'Title',
                         border: OutlineInputBorder(
                           borderSide: (BorderSide(
-                              width: 3, color: Theme.of(context).primaryColor)),
+                            width: 3,
+                            color: Theme.of(context).primaryColor,
+                          )),
                         ),
                       ),
                       textInputAction: TextInputAction.next,
@@ -190,7 +192,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         labelText: 'Price',
                         border: OutlineInputBorder(
                           borderSide: (BorderSide(
-                              width: 3, color: Theme.of(context).primaryColor)),
+                            width: 3,
+                            color: Theme.of(context).primaryColor,
+                          )),
                         ),
                       ),
                       textInputAction: TextInputAction.next,
@@ -231,7 +235,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         labelText: 'Description',
                         border: OutlineInputBorder(
                           borderSide: (BorderSide(
-                              width: 3, color: Theme.of(context).primaryColor)),
+                            width: 3,
+                            color: Theme.of(context).primaryColor,
+                          )),
                         ),
                       ),
                       maxLines: 3,
@@ -291,8 +297,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               labelText: 'Image URL',
                               border: OutlineInputBorder(
                                 borderSide: (BorderSide(
-                                    width: 3,
-                                    color: Theme.of(context).primaryColor)),
+                                  width: 3,
+                                  color: Theme.of(context).primaryColor,
+                                )),
                               ),
                             ),
                             keyboardType: TextInputType.url,
