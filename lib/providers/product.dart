@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,6 +9,7 @@ class Product with ChangeNotifier {
   final String description;
   final double price;
   final String imageUrl;
+
   bool isFavorite;
 
   Product({
@@ -26,18 +26,18 @@ class Product with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> toggleFavoriteStatus() async {
+  Future<void> toggleFavoriteStatus(String token, String userId) async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     notifyListeners();
-    final url = Uri.https(
-        'myshop-55855-default-rtdb.firebaseio.com', '/products/$id.json');
+    final url = Uri.parse(
+        'https://myshop-55855-default-rtdb.firebaseio.com/userFavorite/$userId/$id.json?auth=$token');
     try {
-      final response = await http.patch(
+      final response = await http.put(
         url,
-        body: json.encode({
-          'isFavorite': isFavorite,
-        }),
+        body: json.encode(
+          isFavorite,
+        ),
       );
       if (response.statusCode >= 400) {
         _setfavValue(oldStatus);

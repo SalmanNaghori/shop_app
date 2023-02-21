@@ -35,6 +35,10 @@ class Cart with ChangeNotifier {
     return total;
   }
 
+  String get token => null;
+
+  String get uesrId => null;
+
   void addItem(
     String productId,
     double price,
