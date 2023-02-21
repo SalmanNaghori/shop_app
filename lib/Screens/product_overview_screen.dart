@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../widgets/app_drawer.dart';
+import 'package:provider/provider.dart';
 import '../widgets/products_grid.dart';
 import '../widgets/badge.dart';
 import '../providers/cart.dart';
@@ -9,23 +8,24 @@ import './cart_screen.dart';
 import '../providers/products.dart';
 
 enum FilterOptions {
-  Favorites,
-  All,
+  favorites,
+  all,
 }
 
-class ProductsOverviewScreen extends StatefulWidget {
+class ProductOverviewScreen extends StatefulWidget {
   @override
-  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
+  State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
 }
 
-class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var _showOnlyFavorites = false;
   var _isInit = true;
   var _isLoading = false;
 
   @override
   void initState() {
-    // Provider.of<Products>(context).fetchAndSetProducts(); // WON'T WORK!
+    // TODO: implement initState
+    // Provider.of<Products>(context).fetchAndSetProducts(); // WON'T WORK! because we use listen: false
     // Future.delayed(Duration.zero).then((_) {
     //   Provider.of<Products>(context).fetchAndSetProducts();
     // });
@@ -52,44 +52,41 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('MyShop'),
-        actions: <Widget>[
+        title: const Text('MyShop'),
+        actions: [
           PopupMenuButton(
             onSelected: (FilterOptions selectedValue) {
               setState(() {
-                if (selectedValue == FilterOptions.Favorites) {
+                if (selectedValue == FilterOptions.favorites) {
                   _showOnlyFavorites = true;
                 } else {
                   _showOnlyFavorites = false;
                 }
               });
             },
-            icon: Icon(
-              Icons.more_vert,
-            ),
+            icon: const Icon(Icons.more_vert),
             itemBuilder: (_) => [
-                  PopupMenuItem(
-                    child: Text('Only Favorites'),
-                    value: FilterOptions.Favorites,
-                  ),
-                  PopupMenuItem(
-                    child: Text('Show All'),
-                    value: FilterOptions.All,
-                  ),
-                ],
+              const PopupMenuItem(
+                  value: FilterOptions.favorites,
+                  child: Text('Only Favorites')),
+              const PopupMenuItem(
+                  value: FilterOptions.all, child: Text('Show All')),
+            ],
           ),
-          Consumer<Cart>(
-            builder: (_, cart, ch) => Badge(
-                  child: ch,
-                  value: cart.itemCount.toString(),
-                ),
-            child: IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
+          FittedBox(
+            child: Consumer<Cart>(
+              builder: (_, cart, ch) => Badge(
+                value: cart.itemCount.toString(),
+                child: ch,
               ),
-              onPressed: () {
-                Navigator.of(context).pushNamed(CartScreen.routeName);
-              },
+              child: IconButton(
+                icon: const Icon(
+                  Icons.shopping_cart,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(CartScreen.routeName);
+                },
+              ),
             ),
           ),
         ],

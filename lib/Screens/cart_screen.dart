@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import '../providers/cart.dart' show Cart;
+import 'package:provider/provider.dart';
 import '../widgets/cart_item.dart';
 import '../providers/orders.dart';
 
 class CartScreen extends StatelessWidget {
+  CartScreen({Key key}) : super(key: key);
   static const routeName = '/cart';
 
   @override
@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
         title: Text('Your Cart'),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Card(
             margin: EdgeInsets.all(15),
             child: Padding(
@@ -24,14 +24,16 @@ class CartScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Total',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                   Spacer(),
                   Chip(
                     label: Text(
-                      '₹${cart.totalAmount.toStringAsFixed(2)}',
+                      '\$${cart.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
                         color:
                             Theme.of(context).primaryTextTheme.headline6.color,
@@ -39,7 +41,7 @@ class CartScreen extends StatelessWidget {
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  OrderButton(cart: cart)
+                  OrderButton(cart: cart),
                 ],
               ),
             ),
@@ -72,7 +74,7 @@ class OrderButton extends StatefulWidget {
   final Cart cart;
 
   @override
-  _OrderButtonState createState() => _OrderButtonState();
+  State<OrderButton> createState() => _OrderButtonState();
 }
 
 class _OrderButtonState extends State<OrderButton> {
@@ -82,10 +84,9 @@ class _OrderButtonState extends State<OrderButton> {
   Widget build(BuildContext context) {
     return TextButton(
       style: TextButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).primaryColor,
       ),
-      child: _isLoading ? CircularProgressIndicator() : Text('ORDER NOW'),
-      onPressed: (widget.cart.totalAmount <= 0 || _isLoading)
+      onPressed: (widget.cart.totalAmount <= 0  || _isLoading)
           ? null
           : () async {
               setState(() {
@@ -100,6 +101,7 @@ class _OrderButtonState extends State<OrderButton> {
               });
               widget.cart.clear();
             },
+      child: _isLoading ? CircularProgressIndicator() : Text('ORDER NOW'),
     );
   }
 }
