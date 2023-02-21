@@ -61,6 +61,7 @@ class AuthScreen extends StatelessWidget {
                           )
                         ],
                       ),
+
                       child: Text(
                         'MyShop',
                         style: TextStyle(
