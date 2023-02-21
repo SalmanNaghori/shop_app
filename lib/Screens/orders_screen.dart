@@ -5,8 +5,31 @@ import '../providers/orders.dart' show Orders;
 import '../widgets/order_item.dart';
 import '../widgets/app_drawer.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   static const routeName = '/orders';
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  Future _ordersFuture;
+  Future _obtainOrdersFuture() {
+    return Provider.of<Orders>(context, listen: false).fetchAndSetOrders();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _ordersFuture = _obtainOrdersFuture();
+    super.initState();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +41,7 @@ class OrdersScreen extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: FutureBuilder(
-        future: Provider.of<Orders>(context, listen: false).fetchAndSetOrders(),
+        future: _ordersFuture,
         builder: (ctx, dataSnapshot) {
           if (dataSnapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -31,10 +54,39 @@ class OrdersScreen extends StatelessWidget {
               );
             } else {
               return Consumer<Orders>(
-                builder: (ctx, orderData, child) => ListView.builder(
-                      itemCount: orderData.orders.length,
-                      itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
-                    ),
+                builder: (ctx, orderData, child) => orderData.orders.isEmpty
+                    ? LayoutBuilder(builder: (ctx, Constraints) {
+                        return Center(
+                          child: Column(
+                            children: <Widget>[
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                  height: Constraints.maxHeight * 0.45,
+                                  child: Image.asset(
+                                    'assets/images/empty.png',
+                                    fit: BoxFit.cover,
+                                  )),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'No Orders added yet!',
+                                style: TextStyle(
+                                    fontFamily: 'Lato',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                    color: Theme.of(context).primaryColor),
+                              ),
+                            ],
+                          ),
+                        );
+                      })
+                    : ListView.builder(
+                        itemCount: orderData.orders.length,
+                        itemBuilder: (ctx, i) => OrderItem(orderData.orders[i]),
+                      ),
               );
             }
           }

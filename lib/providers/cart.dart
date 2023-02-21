@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 
 class CartItem {
@@ -39,26 +41,24 @@ class Cart with ChangeNotifier {
     String title,
   ) {
     if (_items.containsKey(productId)) {
-      // change quantity...
+      //change quantity..
       _items.update(
-        productId,
-        (existingCartItem) => CartItem(
-              id: existingCartItem.id,
-              title: existingCartItem.title,
-              price: existingCartItem.price,
-              quantity: existingCartItem.quantity + 1,
-            ),
-      );
+          productId,
+          (existingCartItem) => CartItem(
+                id: existingCartItem.id,
+                title: existingCartItem.title,
+                quantity: existingCartItem.quantity + 1,
+                price: existingCartItem.price,
+              ));
     } else {
       _items.putIfAbsent(
-        productId,
-        () => CartItem(
-              id: DateTime.now().toString(),
-              title: title,
-              price: price,
-              quantity: 1,
-            ),
-      );
+          productId,
+          () => CartItem(
+                id: DateTime.now().toString(),
+                title: title,
+                quantity: 1,
+                price: price,
+              ));
     }
     notifyListeners();
   }
@@ -75,12 +75,11 @@ class Cart with ChangeNotifier {
     if (_items[productId].quantity > 1) {
       _items.update(
           productId,
-          (existingCartItem) => CartItem(
-                id: existingCartItem.id,
-                title: existingCartItem.title,
-                price: existingCartItem.price,
-                quantity: existingCartItem.quantity - 1,
-              ));
+          (existingCArtItem) => CartItem(
+              id: existingCArtItem.id,
+              title: existingCArtItem.title,
+              price: existingCArtItem.price,
+              quantity: existingCArtItem.quantity - 1));
     } else {
       _items.remove(productId);
     }
